@@ -19,5 +19,5 @@ Where `tax` stands for the tax rate in percent and `vat` for the actual tax valu
 ```php
 $p1 = new RockPrice(1000, 20);
 $p2 = new RockPrice(1000, 0);
-$p1->isEqual($p2); // false
+$p1->equals($p2); // false
 ```
