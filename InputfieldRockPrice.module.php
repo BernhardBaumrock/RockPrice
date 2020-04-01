@@ -43,7 +43,12 @@ class InputfieldRockPrice extends InputfieldMarkup {
         </tr>
       </tbody>
     </table>
-    <script>$(function() { $('#Inputfield_$name').find('.tax').change(); });</script>";
+    <script>
+    $(function() {
+      $('#Inputfield_$name').find('.tax').change();
+      $('#Inputfield_$name').removeClass('InputfieldStateChanged');
+    });
+    </script>";
   }
 
   /**
