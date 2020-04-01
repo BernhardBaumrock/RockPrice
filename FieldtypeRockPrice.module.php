@@ -31,7 +31,7 @@ class FieldtypeRockPrice extends Fieldtype {
     }
 
     public function getBlankValue(Page $page, Field $field) {
-      return new RockPrice();
+      return new RockPrice(0, $field->defaultTax);
     }
 
     public function sleepValue($page, $field, $value) {
