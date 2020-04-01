@@ -1,0 +1,19 @@
+table.RockPrice td {
+  padding: 0px;
+  white-space: nowrap;
+}
+table.RockPrice .head td {
+  padding: 0 10px;
+  text-align: center;
+  text-transform: uppercase;
+}
+table.RockPrice input {
+  text-align: right;
+}
+table.RockPrice select {
+  width: 80px !important;
+}
+table.RockPrice .vat {
+  width: 100px !important;
+  text-align: center;
+}
