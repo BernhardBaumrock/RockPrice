@@ -1,3 +1,11 @@
+.InputfieldRockPrice .InputfieldContent {
+  overflow-x: auto;
+}
+table.RockPrice {
+  max-width: 600px;
+  min-width: 400px;
+  margin: 0 !important;
+}
 table.RockPrice td {
   padding: 0px;
   white-space: nowrap;
@@ -10,7 +18,7 @@ table.RockPrice .head td {
 table.RockPrice input {
   text-align: right;
 }
-table.RockPrice select {
+table.RockPrice .tax {
   width: 80px !important;
 }
 table.RockPrice .vat {

@@ -6,6 +6,7 @@
  * @license Licensed under MIT
  * @link https://www.baumrock.com
  */
+require_once('RockPrice.php');
 class FieldtypeRockPrice extends Fieldtype {
 
   public static function getModuleInfo() {
@@ -25,21 +26,45 @@ class FieldtypeRockPrice extends Fieldtype {
 
   /** FIELDTYPE METHODS */
 
-    /**
-    * Sanitize value for storage
-    * 
-    * @param Page $page
-    * @param Field $field
-    * @param string $value
-    * @return string
-    */
     public function sanitizeValue(Page $page, Field $field, $value) {
       return $value;
     }
 
+    public function getBlankValue(Page $page, Field $field) {
+      return new RockPrice();
+    }
+
+    public function sleepValue($page, $field, $value) {
+      if(is_array($value) AND count($value) === 2) {
+        // value was provided as array, eg setAndSave('price', [1000, 20]);
+        $value = new RockPrice($value[0], $value[1]);
+      }
+      if(!$value instanceof RockPrice) throw new WireException("Invalid value");
+      
+      return [
+        'data' => $value->net,
+        'gross' => $value->gross,
+        'tax' => $value->tax,
+        'vat' => $value->vat,
+      ];
+    }
+    
+    public function wakeupValue($page, $field, $value) {
+      $price = new RockPrice($value['data'], $value['tax']);
+      // round values to given precision for usage in inputfield
+      $price->tax = round($price->tax, $field->precision);
+      $price->vat = round($price->vat, $field->precision);
+      $price->net = round($price->net, $field->precision);
+      $price->gross = round($price->gross, $field->precision);
+      return $price;
+    }
+
     public function getDatabaseSchema(Field $field) {
-      $schema = parent::getDatabaseSchema($field); 
-      $schema['data'] = 'float NOT NULL';
+      $schema = parent::getDatabaseSchema($field);
+      $schema['data'] = 'DECIMAL(12,3) NOT NULL'; // net value
+      $schema['gross'] = 'DECIMAL(12,3) NOT NULL';
+      $schema['tax'] = 'DECIMAL(12,3) NOT NULL';
+      $schema['vat'] = 'DECIMAL(12,3) NOT NULL';
       return $schema;
     }
     
@@ -53,9 +78,6 @@ class FieldtypeRockPrice extends Fieldtype {
       return $inputfield; 
     }
     
-    /**
-     * No compatible Fieldtypes
-     */
     public function ___getCompatibleFieldtypes(Field $field) {
       return false;
     }

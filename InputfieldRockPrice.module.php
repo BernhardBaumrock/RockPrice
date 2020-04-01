@@ -25,6 +25,8 @@ class InputfieldRockPrice extends InputfieldMarkup {
   * @return string
   */
   public function ___render() {
+    $price = $this->value;
+    $name = $this->name;
     return "<table class='RockPrice' data-precision='{$this->precision}'>
       <tbody>
         <tr class='head'>
@@ -35,12 +37,13 @@ class InputfieldRockPrice extends InputfieldMarkup {
         </tr>
         <tr>
           <td>{$this->renderTaxInput()}</td>
-          <td class='vat'></td>
-          <td><input type='number' class='net' step='0.01'></td>
-          <td><input type='number' class='gross' step='0.01'></td>
+          <td class='vat'>{$price->vat}</td>
+          <td><input type='number' name='{$name}_net' class='net' step='0.01' value='{$price->net}'></td>
+          <td><input type='number' name='{$name}_gross' class='gross' step='0.01' value='{$price->gross}'></td>
         </tr>
       </tbody>
-    </table>";
+    </table>
+    <script>$(function() { $('#Inputfield_$name').find('.tax').change(); });</script>";
   }
 
   /**
@@ -60,13 +63,14 @@ class InputfieldRockPrice extends InputfieldMarkup {
    * Render tax input
    */
   public function renderTaxInput() {
-    $val = $this->tax;
+    $val = $this->value->tax;
     $name = $this->name."_tax";
     $select = '';
     foreach($this->getTaxSelectValues() as $tax) {
       $tax = trim($tax);
       if(!strlen($tax)) continue;
-      $select .= "<option value='$tax'>$tax%</option>";
+      $selected = $tax == $val ? ' selected="selected"' : '';
+      $select .= "<option value='$tax'$selected>$tax%</option>";
     }
     if($select) return "<select name='$name' class='tax'>$select</select>";
     return "<input type='number' name='$name' class='tax' step='{$this->taxStep}' value='$val'>";
@@ -86,8 +90,14 @@ class InputfieldRockPrice extends InputfieldMarkup {
   * @return $this
   */
   public function ___processInput($input) {
-    $this->message('process input!');
-    return false;
+    $old = $this->value;
+    $net = $input->get($this->name."_net");
+    $tax = $input->get($this->name."_tax");
+    $new = new RockPrice($net, $tax);
+    if(!$old->equals($new)) {
+      $this->trackChange('value');
+      $this->value = $new;
+    }
   }
 
   /**
@@ -125,7 +135,7 @@ class InputfieldRockPrice extends InputfieldMarkup {
     $f->name = 'precision';
     $f->label = $this->_('Precision');
     $f->value = $this->precision ?? 2;
-    $f->notes = $this->_('Digits after comma.');
+    $f->notes = $this->_('Digits after comma. Max precision in the database is 3 digits.');
     $f->size = 2;
     $f->columnWidth = 33;
     $inputfields->append($f);

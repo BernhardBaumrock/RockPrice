@@ -20,8 +20,9 @@ $(function() {
   }
 
   var setTax = function(val) {
-    console.log('tax changed');
+    // trigger both to update all fields (net + gross) to have same decimals
     $table.find('.net').change();
+    $table.find('.gross').change();
   }
 
   $(document).on('keyup change', '.RockPrice input, .RockPrice select', function(e) {
