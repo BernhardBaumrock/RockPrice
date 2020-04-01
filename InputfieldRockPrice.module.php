@@ -30,10 +30,10 @@ class InputfieldRockPrice extends InputfieldMarkup {
     return "<table class='RockPrice' data-precision='{$this->precision}'>
       <tbody>
         <tr class='head'>
-          <td><small>Tax (%)</small></td>
-          <td><small>Vat</small></td>
-          <td><small>Net</small></td>
-          <td><small>Gross</small></td>
+          <td><small>".__('Tax')." (%)</small></td>
+          <td><small>".__('Vat')."</small></td>
+          <td><small>".__('Net')."</small></td>
+          <td><small>".__('Gross')."</small></td>
         </tr>
         <tr>
           <td>{$this->renderTaxInput()}</td>
