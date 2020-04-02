@@ -16,6 +16,14 @@ Where `tax` stands for the tax rate in percent and `vat` for the actual tax valu
 
 ## API
 
+Saving field value:
+
+```php
+$page->setAndSave('price', [1000, 20]);
+```
+
+Comparing two prices:
+
 ```php
 $p1 = new RockPrice(1000, 20);
 $p2 = new RockPrice(1000, 0);
