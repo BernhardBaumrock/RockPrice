@@ -1,0 +1,66 @@
+.RockPriceDrag {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px dashed rgba(0, 0, 0, 0.2);
+}
+.RockPriceDrag table {
+  display: none !important;
+}
+.RockPrice {
+  overflow-x: auto;
+}
+.RockPrice input.rp-data {
+  display: none !important;
+}
+.RockPrice table,
+.RockPrice tbody,
+.RockPrice tr,
+.RockPrice td {
+  padding: 0;
+  margin: 0;
+}
+.RockPrice input {
+  text-align: right;
+}
+.RockPrice input[disabled] {
+  border: 1px transparent !important;
+  background: transparent !important;
+}
+.RockPrice > table {
+  font-size: 11px;
+  text-transform: uppercase;
+}
+.RockPrice table {
+  border-collapse: collapse;
+  text-align: center;
+}
+.RockPrice table .icon {
+  width: 30px;
+  min-width: 30px;
+  cursor: move;
+}
+.RockPrice table .tax {
+  width: 100px;
+  min-width: 100px;
+}
+.RockPrice table .vat {
+  width: 120px;
+  min-width: 120px;
+}
+.RockPrice table .vat input {
+  padding-right: 10px !important;
+}
+.RockPrice table .net,
+.RockPrice table .gross {
+  width: 120px;
+  min-width: 120px;
+}
+.RockPrice table .clone,
+.RockPrice table .trash {
+  padding: 0 10px;
+  white-space: nowrap;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+.RockPrice .rp-rows .rp-row:only-child .trash {
+  opacity: 0 !important;
+}

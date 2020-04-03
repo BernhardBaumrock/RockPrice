@@ -51,11 +51,11 @@ class FieldtypeRockPrice extends Fieldtype {
     
     public function wakeupValue($page, $field, $value) {
       $price = new RockPrice($value['data'], $value['tax']);
-      // round values to given precision for usage in inputfield
-      $price->tax = round($price->tax, $field->precision);
-      $price->vat = round($price->vat, $field->precision);
-      $price->net = round($price->net, $field->precision);
-      $price->gross = round($price->gross, $field->precision);
+      // round values to given digits for usage in inputfield
+      $price->tax = round($price->tax, $field->digits);
+      $price->vat = round($price->vat, $field->digits);
+      $price->net = round($price->net, $field->digits);
+      $price->gross = round($price->gross, $field->digits);
       return $price;
     }
 
@@ -74,7 +74,7 @@ class FieldtypeRockPrice extends Fieldtype {
       $inputfield->defaultTax = $field->defaultTax;
       $inputfield->taxStep = $field->taxStep;
       $inputfield->taxSelect = $field->taxSelect;
-      $inputfield->precision = $field->precision;
+      $inputfield->digits = $field->digits;
       return $inputfield; 
     }
     

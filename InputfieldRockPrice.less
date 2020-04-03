@@ -1,0 +1,64 @@
+
+.RockPriceDrag {
+  background: rgba(0,0,0,0.05);
+  border: 1px dashed rgba(0,0,0,0.2);
+  table { display: none !important; }
+}
+
+.RockPrice {
+  overflow-x: auto;
+
+  // hidden inputfields
+  input.rp-data { display: none !important; }
+
+  table, tbody, tr, td { padding: 0; margin: 0; }
+  input { text-align: right; }
+  input[disabled] {
+    border: 1px transparent !important;
+    background: transparent !important;
+  }
+  > table {
+    // heading
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  // table in rows
+  table {
+    border-collapse: collapse;
+    text-align: center;
+
+    // column widths
+    .icon {
+      width: 30px;
+      min-width: 30px;
+      cursor: move;
+    }
+    .tax {
+      width: 100px;
+      min-width: 100px;
+    }
+    .vat {
+      width: 120px;
+      min-width: 120px;
+      input { padding-right: 10px !important; }
+    }
+    .net, .gross {
+      width: 120px;
+      min-width: 120px;
+    }
+
+    // row icons
+    .clone, .trash {
+      padding: 0 10px;
+      white-space: nowrap;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+    }
+  }
+
+  // hide trash icon if only one row left
+  .rp-rows .rp-row:only-child {
+    .trash { opacity: 0 !important; }
+  }
+}
