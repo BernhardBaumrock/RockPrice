@@ -129,8 +129,14 @@ $(function() {
     $RP.find('input.total').val(val);
 
     // add single line class for CSS
-    if($RP.find('.rp-row').length < 2) $RP.addClass('single-line');
-    else $RP.removeClass('single-line');
+    if($RP.find('.rp-row').length < 2) {
+      $RP.addClass('single-line');
+      $RP.find('.rp-row').addClass('uk-sortable-nodrag');
+    }
+    else {
+      $RP.find('.rp-row').removeClass('uk-sortable-nodrag');
+      $RP.removeClass('single-line');
+    }
 
     $RP.find('.totals .vat input').val(inputTotals.vat.toFixed(digits));
     $RP.find('.totals .net input').val(inputTotals.net.toFixed(digits));

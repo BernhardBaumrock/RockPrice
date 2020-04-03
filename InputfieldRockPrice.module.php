@@ -9,6 +9,7 @@
 class InputfieldRockPrice extends InputfieldMarkup {
   const defaultTax = 20;
   const defaultDigits = 2;
+  const nomultiline = false;
 
   public static function getModuleInfo() {
     return [
@@ -26,6 +27,7 @@ class InputfieldRockPrice extends InputfieldMarkup {
     $this->icon = 'money';
     $this->defaultTax = self::defaultTax;
     $this->digits = self::defaultDigits;
+    $this->nomultiline = self::nomultiline;
   }
 
   /**
@@ -38,7 +40,7 @@ class InputfieldRockPrice extends InputfieldMarkup {
    */
   public function renderReady(Inputfield $parent = null, $renderValueMode = false) {
     $this->wire('modules')->get('JqueryUI')->use('vex');
-    
+
     $url = $this->config->urls($this);
     $this->config->scripts->add($url.$this->className.".js");
 
@@ -99,22 +101,30 @@ class InputfieldRockPrice extends InputfieldMarkup {
    * Render vat input
    */
   public function renderInputVat() {
-    return "<input type='number' value='0' disabled>";
+    return "<input type='number' {$this->getStep()} value='0' disabled>";
   }
   /**
    * Render net input
    */
   public function renderInputNet() {
-    return "<input type='number' value='100'>";
+    return "<input type='number' {$this->getStep()} value='100'>";
   }
   /**
    * Render gross input
    */
   public function renderInputGross() {
-    return "<input type='number' value='0'>";
+    return "<input type='number' {$this->getStep()} value='0'>";
   }
 
   // END MARKUP HELPER METHODS
+
+  /**
+   * Get step markup from precision
+   */
+  public function getStep() {
+    $step = 1 / pow(10, $this->digits);
+    return " step='$step'";
+  }
 
   /**
    * Get array of tax select
@@ -167,9 +177,9 @@ class InputfieldRockPrice extends InputfieldMarkup {
     
     /** @var InputfieldCheckbox $f */
     $f = $this->modules->get('InputfieldCheckbox');
-    $f->name = 'multiline';
-    $f->label = $this->_('Allow Multi-Line');
-    $f->value = $this->multiline ?? 1;
+    $f->name = 'nomultiline';
+    $f->label = $this->_('Do not allow multiline input');
+    $f->attr('checked', $this->nomultiline ? 'checked' : '');
     $f->columnWidth = 25;
     $inputfields->append($f);
     

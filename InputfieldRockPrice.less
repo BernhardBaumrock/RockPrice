@@ -64,9 +64,25 @@
     }
   }
 
+  // hide elements if multiline is disabled
+  &.nomultiline {
+    // border: 1px solid red;
+    .icon { display: none !important; }
+    .trash { display: none !important; }
+    .clone { display: none !important; }
+    .totals { display: none !important; }
+  }
+
   // single line modifications
   &.single-line {
     .totals { display: none; }
-    .trash { opacity: 0 !important; }
+    .trash {
+      opacity: 0 !important;
+      pointer-events: none; // prevent click
+    }
+    .icon {
+      opacity: 0 !important;
+      cursor: default;
+    }
   }
 }

@@ -75,6 +75,7 @@ class FieldtypeRockPrice extends Fieldtype {
       $inputfield->taxStep = $field->taxStep;
       $inputfield->taxSelect = $field->taxSelect;
       $inputfield->digits = $field->digits;
+      $inputfield->nomultiline = $field->nomultiline;
       return $inputfield; 
     }
     

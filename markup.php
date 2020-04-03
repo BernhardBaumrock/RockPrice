@@ -1,5 +1,8 @@
-<?php namespace ProcessWire; ?>
-<div class="RockPrice" data-digits="<?= $field->digits ?>"
+<?php namespace ProcessWire;
+$nomultiline = $field->nomultiline ? 'nomultiline' : '';
+?>
+
+<div class="RockPrice <?= $nomultiline ?>" data-digits="<?= $field->digits ?>"
   data-really="<?= __('Do you really want to delete this row?') ?>"
   data-last="<?= __('Last row can not be deleted!') ?>"
   >
