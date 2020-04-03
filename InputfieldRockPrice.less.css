@@ -42,6 +42,8 @@
   min-width: 30px;
   max-width: 30px;
   cursor: move;
+  opacity: 1;
+  transition: opacity 0.5s ease;
 }
 .RockPrice table .tax {
   width: 100px;
@@ -69,9 +71,6 @@
   opacity: 1;
   transition: opacity 0.5s ease;
 }
-.RockPrice.nomultiline {
-  border: 1px solid red;
-}
 .RockPrice.nomultiline .icon {
   display: none !important;
 }
@@ -87,11 +86,8 @@
 .RockPrice.single-line .totals {
   display: none;
 }
-.RockPrice.single-line .trash {
-  opacity: 0 !important;
-  pointer-events: none;
-}
+.RockPrice.single-line .trash,
 .RockPrice.single-line .icon {
   opacity: 0 !important;
-  cursor: default;
+  pointer-events: none;
 }

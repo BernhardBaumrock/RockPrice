@@ -37,6 +37,8 @@
       min-width: 30px;
       max-width: 30px;
       cursor: move;
+      opacity: 1;
+      transition: opacity 0.5s ease;
     }
     .tax {
       width: 100px;
@@ -76,13 +78,9 @@
   // single line modifications
   &.single-line {
     .totals { display: none; }
-    .trash {
+    .trash, .icon {
       opacity: 0 !important;
       pointer-events: none; // prevent click
-    }
-    .icon {
-      opacity: 0 !important;
-      cursor: default;
     }
   }
 }

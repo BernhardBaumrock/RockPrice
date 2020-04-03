@@ -57,7 +57,7 @@ class InputfieldRockPrice extends InputfieldMarkup {
   public function ___render() {
     return $this->files->render(__DIR__."/markup.php", [
       'field' => $this,
-      'rows' => $this->value ?? ['foo', 'bar', 'xxx', 'yyy'],
+      'rows' => $this->value ?? ['foo', 'bar'],
       'name' => $this->name,
     ]);
   }
