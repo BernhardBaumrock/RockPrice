@@ -25,26 +25,33 @@
   border: 1px transparent !important;
   background: transparent !important;
 }
-.RockPrice > table {
-  font-size: 11px;
-  text-transform: uppercase;
-}
 .RockPrice table {
   border-collapse: collapse;
   text-align: center;
 }
+.RockPrice table.header {
+  font-size: 11px;
+  text-transform: uppercase;
+}
+.RockPrice table.totals {
+  margin-top: 2px;
+  border-top: 1px solid #afafaf;
+}
 .RockPrice table .icon {
   width: 30px;
   min-width: 30px;
+  max-width: 30px;
   cursor: move;
 }
 .RockPrice table .tax {
   width: 100px;
   min-width: 100px;
+  max-width: 100px;
 }
 .RockPrice table .vat {
   width: 120px;
   min-width: 120px;
+  max-width: 120px;
 }
 .RockPrice table .vat input {
   padding-right: 10px !important;
@@ -53,6 +60,7 @@
 .RockPrice table .gross {
   width: 120px;
   min-width: 120px;
+  max-width: 120px;
 }
 .RockPrice table .clone,
 .RockPrice table .trash {
@@ -61,6 +69,9 @@
   opacity: 1;
   transition: opacity 0.5s ease;
 }
-.RockPrice .rp-rows .rp-row:only-child .trash {
+.RockPrice.single-line .totals {
+  display: none;
+}
+.RockPrice.single-line .trash {
   opacity: 0 !important;
 }

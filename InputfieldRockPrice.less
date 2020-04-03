@@ -17,35 +17,42 @@
     border: 1px transparent !important;
     background: transparent !important;
   }
-  > table {
-    // heading
-    font-size: 11px;
-    text-transform: uppercase;
-  }
 
   // table in rows
   table {
     border-collapse: collapse;
     text-align: center;
+    &.header {
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+    &.totals {
+      margin-top: 2px;
+      border-top: 1px solid #afafaf;
+    }
 
     // column widths
     .icon {
       width: 30px;
       min-width: 30px;
+      max-width: 30px;
       cursor: move;
     }
     .tax {
       width: 100px;
       min-width: 100px;
+      max-width: 100px;
     }
     .vat {
       width: 120px;
       min-width: 120px;
+      max-width: 120px;
       input { padding-right: 10px !important; }
     }
     .net, .gross {
       width: 120px;
       min-width: 120px;
+      max-width: 120px;
     }
 
     // row icons
@@ -57,8 +64,9 @@
     }
   }
 
-  // hide trash icon if only one row left
-  .rp-rows .rp-row:only-child {
+  // single line modifications
+  &.single-line {
+    .totals { display: none; }
     .trash { opacity: 0 !important; }
   }
 }

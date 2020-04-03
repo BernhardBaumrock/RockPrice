@@ -3,7 +3,7 @@
   data-really="<?= __('Do you really want to delete this row?') ?>"
   data-last="<?= __('Last row can not be deleted!') ?>"
   >
-  <table>
+  <table class="header">
     <tr>
       <td class="icon"></td>
       <td class="tax"><?= __('TAX (%)') ?></td>
@@ -11,6 +11,7 @@
       <td class="net"><?= __('NET') ?></td>
       <td class="gross"><?= __('GROSS') ?></td>
       <td class="copy"></td>
+      <td class="trash"></td>
     </tr>
   </table>
   <div class="rp-rows" uk-sortable="cls-custom: RockPriceDrag;">
@@ -37,12 +38,22 @@
     </div>
   <?php endforeach; ?>
   </div>
+  <table class="totals">
+    <tr>
+      <td class="icon"></td>
+      <td class="tax"></td>
+      <td class="vat"><input type="number" disabled value="123"></td>
+      <td class="net"><input type="number" disabled value="123"></td>
+      <td class="gross"><input type="number" disabled value="123"></td>
+    </tr>
+  </table>
   <input type="text" name="<?= $name ?>" class="total rp-data">
 </div>
 <script>
 // trigger calculation of inputfields (including decimals)
 $(function() {
   $('#<?= $field->id ?> .RockPrice .tax input').change();
+  $('#<?= $field->id ?> .RockPrice .tax select').change();
   $('#<?= $field->id ?> .RockPrice .net input').change();
   setTimeout(function() {
     $('#<?= $field->id ?>').removeClass('InputfieldStateChanged');

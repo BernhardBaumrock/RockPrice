@@ -72,7 +72,6 @@ $(function() {
   // log function for debugging
   var log = function(...data) {
     if(!ProcessWire.config.debug) return;
-    return;
     console.log(...data);
   }
 
@@ -81,11 +80,15 @@ $(function() {
     // reset rockprice object
     var digits = $table.closest('.RockPrice').data('digits');
     RP.setDigits(digits);
-    RP.setTax($table.find('.tax input').val());
+    var tax = $table.find('.tax input').length
+      ? $table.find('.tax input').val()
+      : $table.find('.tax select').val()
+      ;
+    RP.setTax(tax);
     RP.setNet($table.find('.net input').val());
     if(type === 'gross') RP.setGross(val);
 
-    log('update!', RP);
+    // log('update!', RP);
     $table.find('input[name=rowdata]').val(RP.getJson());
     if(type !== 'tax') $table.find('.tax input').val(RP.tax.toFixed(digits));
     if(type !== 'vat') $table.find('.vat input').val(RP.vat.toFixed(digits));
@@ -101,19 +104,44 @@ $(function() {
   var updateTotals = function() {
     var totals = [];
     var rows = $RP.find('.rp-row');
-    log($RP, rows);
+    var digits = $RP.data('digits');
+    // log($RP, rows);
 
+    // reset all sum inputs
+    $RP.find('.totals input').val(null);
+    var inputTotals = {
+      vat: 0,
+      net: 0,
+      gross: 0,
+    };
+
+    // update hidden data input
     $.each(rows, function(i, el) {
       var val = $(el).find('input[name=rowdata]').val();
-      totals.push(JSON.parse(val));
+      var rowdata = JSON.parse(val);
+      totals.push(rowdata);
+
+      inputTotals.vat = inputTotals.vat*1 + rowdata.vat*1;
+      inputTotals.net = inputTotals.net*1 + rowdata.net*1;
+      inputTotals.gross = inputTotals.gross*1 + rowdata.gross*1;
     });
     var val = JSON.stringify(totals);
     $RP.find('input.total').val(val);
+
+    // add single line class for CSS
+    if($RP.find('.rp-row').length < 2) $RP.addClass('single-line');
+    else $RP.removeClass('single-line');
+
+    $RP.find('.totals .vat input').val(inputTotals.vat.toFixed(digits));
+    $RP.find('.totals .net input').val(inputTotals.net.toFixed(digits));
+    $RP.find('.totals .gross input').val(inputTotals.gross.toFixed(digits));
+
+    // set inputfield state changed
     $RP.closest('.Inputfield').addClass('InputfieldStateChanged');
   }
 
   // update row data
-  $(document).on('keyup change focusout', '.RockPrice input, .RockPrice select', function(e) {
+  $(document).on('keyup change focusout', '.RockPrice .rp-rows input, .RockPrice .rp-rows select', function(e) {
     var $el = $(e.target);
     var $td = $el.closest('td');
     var val = $el.val();
