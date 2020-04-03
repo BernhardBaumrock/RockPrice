@@ -45,9 +45,9 @@ $nomultiline = $field->nomultiline ? 'nomultiline' : '';
     <tr>
       <td class="icon"></td>
       <td class="tax"></td>
-      <td class="vat"><input type="number" disabled value="123"></td>
-      <td class="net"><input type="number" disabled value="123"></td>
-      <td class="gross"><input type="number" disabled value="123"></td>
+      <td class="vat"><input type="number" disabled></td>
+      <td class="net"><input type="number" disabled></td>
+      <td class="gross"><input type="number" disabled></td>
     </tr>
   </table>
   <input type="text" name="<?= $name ?>" class="total rp-data">
