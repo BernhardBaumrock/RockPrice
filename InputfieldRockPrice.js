@@ -273,6 +273,21 @@ $(function() {
     });
   }
 
+  var setRows = function($RP, data) {
+    var $row = $RP.find(".rp-row").first().clone();
+    $RP.find(".rp-row").remove();
+
+    var $rows = $RP.find('.rp-rows');
+    $.each(data, function(i, row) {
+      $r = $row.clone();
+      $rows.append($r);
+      $r.find('.tax input').val(row.tax);
+      $r.find('.tax select').val(row.tax);
+      $r.find('.gross input').val(row.gross);
+      $r.find('.net input').val(row.net).change();
+    });
+  }
+
   // save template
   $(document).on('click', '.RockPrice button[name=save]', function(e) {
     e.preventDefault();
@@ -293,5 +308,15 @@ $(function() {
     ProcessWire.confirm($RP.data('confirmdeletetpl'), function() {
       deleteTemplate(tpl);
     });
+  });
+
+  // restore templates
+  $(document).on('change', '.RockPrice .tpl select', function(e) {
+    var $select = $(e.target);
+    var tpl = $select.val();
+    if(!tpl) return;
+
+    var data = $select.find('option[value='+tpl+']').data('json');
+    setRows($select.closest('.RockPrice'), data);
   });
 });
