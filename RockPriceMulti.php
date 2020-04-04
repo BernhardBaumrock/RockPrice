@@ -60,9 +60,20 @@ class RockPriceMulti extends WireData {
    * Check if this price is equal to another
    * @return bool
    */
-  public function equals($item) {
-    if(!$item instanceof RockPriceMulti) {
-      throw new WireException("Argument must be of type RockPriceMulti");
+  public function equals($other, $ignoreSort = false) {
+    if(!$other instanceof RockPriceMulti) $other = new RockPriceMulti($other);
+    
+    if($ignoreSort) {
+      // we only compare totals
+      return $this->vat === $other->vat
+        AND $this->net === $other->net
+        AND $this->gross === $other->gross;
+    }
+    else {
+      foreach($this->items as $i=>$item) {
+        if(!$item->equals($other->items->eq($i))) return false;
+      }
+      return true;
     }
   }
 
