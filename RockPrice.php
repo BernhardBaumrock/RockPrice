@@ -46,6 +46,17 @@ class RockPrice extends WireData {
   }
 
   /**
+   * Get json string of this item
+   * @return string
+   */
+  public function getJsonString() {
+    return json_encode([
+      'net' => $this->net,
+      'tax' => $this->tax,
+    ]);
+  }
+
+  /**
    * Check if this price is equal to another
    * @return bool
    */
@@ -55,7 +66,6 @@ class RockPrice extends WireData {
     if($price->net !== $this->net) $equal = false;
     return $equal;
   }
-
 
   public function __debugInfo() {
     return [

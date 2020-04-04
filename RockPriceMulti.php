@@ -15,9 +15,27 @@ class RockPriceMulti extends WireData {
    * Import data
    */
   public function import($data) {
+    // if data is already an instance of RockPriceMulti we convert it to a json
+    if($data instanceof RockPriceMulti) $data = $data->getJsonString();
+
+    // value provided as single array
+    // eg RockPriceMulti([200, 20]);
+    if(is_array($data) AND count($data) === 2
+      AND is_numeric($data[0]) AND is_numeric($data[1])) {
+      // wrap value in an array as it it was a multi value
+      $data = [$data];
+    }
+
     if(is_string($data)) $data = (array)json_decode($data);
     if(!is_array($data)) throw new WireException("Invalid data");
+
+    // data is now an array like this
+    // RockPriceMulti([
+    //   [200, 20],
+    //   [300, 10],
+    // ]);
     foreach($data as $row) {
+      if(is_object($row)) $row = [$row->net, $row->tax];
       $price = new RockPrice($row[0], $row[1]);
       $this->items->add($price);
     }
@@ -46,6 +64,18 @@ class RockPriceMulti extends WireData {
     if(!$item instanceof RockPriceMulti) {
       throw new WireException("Argument must be of type RockPriceMulti");
     }
+  }
+
+  /**
+   * Get data string for storing in the DB
+   * @return string
+   */
+  public function getJsonString() {
+    $arr = [];
+    foreach($this->items as $item) {
+      $arr[] = json_decode($item->getJsonString());
+    }
+    return json_encode($arr);
   }
 
 

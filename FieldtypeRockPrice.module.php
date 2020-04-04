@@ -35,37 +35,30 @@ class FieldtypeRockPrice extends Fieldtype {
       return new RockPriceMulti();
     }
 
+    /**
+     * Save value to database
+     */
     public function sleepValue($page, $field, $value) {
-      if(is_array($value) AND count($value) === 2) {
-        // value was provided as array, eg setAndSave('price', [1000, 20]);
-        $value = new RockPrice($value[0], $value[1]);
-      }
-      if(!$value instanceof RockPrice) throw new WireException("Invalid value");
-      
+      $value = new RockPriceMulti($value);
       return [
         'data' => $value->net,
-        'gross' => $value->gross,
-        'tax' => $value->tax,
         'vat' => $value->vat,
+        'gross' => $value->gross,
+        'items' => $value->getJsonString(),
       ];
     }
     
     public function wakeupValue($page, $field, $value) {
-      $price = new RockPrice($value['data'], $value['tax']);
-      // round values to given digits for usage in inputfield
-      $price->tax = round($price->tax, $field->digits);
-      $price->vat = round($price->vat, $field->digits);
-      $price->net = round($price->net, $field->digits);
-      $price->gross = round($price->gross, $field->digits);
+      $price = new RockPriceMulti($value['items']);
       return $price;
     }
 
     public function getDatabaseSchema(Field $field) {
       $schema = parent::getDatabaseSchema($field);
-      $schema['data'] = 'DECIMAL(12,3) NOT NULL'; // net value
-      $schema['gross'] = 'DECIMAL(12,3) NOT NULL';
-      $schema['tax'] = 'DECIMAL(12,3) NOT NULL';
+      $schema['data'] = 'DECIMAL(12,3) NOT NULL'; // NET value
       $schema['vat'] = 'DECIMAL(12,3) NOT NULL';
+      $schema['gross'] = 'DECIMAL(12,3) NOT NULL';
+      $schema['items'] = 'TEXT NOT NULL';
       return $schema;
     }
     

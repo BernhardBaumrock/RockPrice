@@ -1,8 +1,9 @@
 <?php namespace ProcessWire;
 $nomultiline = $field->nomultiline ? 'nomultiline' : '';
+$singleline = $price->items->count() > 1 ? '' : 'single-line';
 ?>
 
-<div class="RockPrice <?= $nomultiline ?>" data-digits="<?= $field->digits ?>"
+<div class="RockPrice <?= $nomultiline ?> <?= $singleline ?>" data-digits="<?= $field->digits ?>"
   data-really="<?= __('Do you really want to delete this row?') ?>"
   data-last="<?= __('Last row can not be deleted!') ?>"
   >
@@ -18,17 +19,17 @@ $nomultiline = $field->nomultiline ? 'nomultiline' : '';
     </tr>
   </table>
   <div class="rp-rows" uk-sortable="cls-custom: RockPriceDrag;">
-  <?php foreach($rows as $i=>$row): ?>
+  <?php foreach($price->items as $row): ?>
     <div class="rp-row">
       <table>
         <tr>
           <td class="icon">
             <i class="fa fa-arrows" aria-hidden="true"></i>
           </td>
-          <td class="tax" data-type="tax"><?= $field->renderInputTax() ?></td>
-          <td class="vat" data-type="vat"><?= $field->renderInputVat() ?></td>
-          <td class="net" data-type="net"><?= $field->renderInputNet() ?></td>
-          <td class="gross" data-type="gross"><?= $field->renderInputGross() ?></td>
+          <td class="tax" data-type="tax"><?= $field->renderInputTax($row->tax) ?></td>
+          <td class="vat" data-type="vat"><?= $field->renderInputVat($row->vat) ?></td>
+          <td class="net" data-type="net"><?= $field->renderInputNet($row->net) ?></td>
+          <td class="gross" data-type="gross"><?= $field->renderInputGross($row->gross) ?></td>
           <td><input type="text" name="rowdata" class="rp-data" disabled></td>
           <td class="clone" data-type="clone">
             <a href='#'><i class="fa fa-clone" aria-hidden="true"></i></a>

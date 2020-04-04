@@ -57,7 +57,7 @@ class InputfieldRockPrice extends InputfieldMarkup {
   public function ___render() {
     return $this->files->render(__DIR__."/markup.php", [
       'field' => $this,
-      'rows' => $this->value ?? ['foo', 'bar'],
+      'price' => $this->value,
       'name' => $this->name,
     ]);
   }
@@ -69,8 +69,7 @@ class InputfieldRockPrice extends InputfieldMarkup {
   public function ___processInput($input) {
     $old = $this->value;
     $json = $input->get($this->name);
-    bd($json, 'json');
-    $new = new RockPrice($json);
+    $new = new RockPriceMulti($json);
     if(!$old->equals($new)) {
       $this->trackChange('value');
       $this->value = $new;
@@ -82,8 +81,7 @@ class InputfieldRockPrice extends InputfieldMarkup {
   /**
    * Render tax input
    */
-  public function renderInputTax() {
-    $val = 20;
+  public function renderInputTax($val) {
     $select = '';
     foreach($this->getTaxSelectValues() as $tax) {
       $tax = trim($tax);
@@ -98,20 +96,20 @@ class InputfieldRockPrice extends InputfieldMarkup {
   /**
    * Render vat input
    */
-  public function renderInputVat() {
-    return "<input type='number' {$this->getStep()} value='0' disabled>";
+  public function renderInputVat($val) {
+    return "<input type='number' {$this->getStep()} value='$val' disabled>";
   }
   /**
    * Render net input
    */
-  public function renderInputNet() {
-    return "<input type='number' {$this->getStep()} value='100'>";
+  public function renderInputNet($val) {
+    return "<input type='number' {$this->getStep()} value='$val'>";
   }
   /**
    * Render gross input
    */
-  public function renderInputGross() {
-    return "<input type='number' {$this->getStep()} value='0'>";
+  public function renderInputGross($val) {
+    return "<input type='number' {$this->getStep()} value='$val'>";
   }
 
   // END MARKUP HELPER METHODS
