@@ -69,6 +69,8 @@ $(function() {
   var RP = new RockPrice();
   var $RP;
 
+  // BUG wenn man ein 10% tax item kopiert, hat das resultierende item 20% in der select box
+
   // log function for debugging
   var log = function(...data) {
     if(!ProcessWire.config.debug) return;

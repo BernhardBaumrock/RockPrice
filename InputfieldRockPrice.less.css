@@ -34,8 +34,8 @@
   text-transform: uppercase;
 }
 .RockPrice table.totals {
-  margin-top: 2px;
-  border-top: 1px solid #afafaf;
+  margin-top: 5px;
+  border-top: 1px solid #b1c3d4;
 }
 .RockPrice table .icon {
   width: 30px;
