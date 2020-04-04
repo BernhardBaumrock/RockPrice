@@ -63,6 +63,25 @@ RockPrice.prototype.getJson = function() {
   });
 }
 
+/**
+ * Get a number that contains only dots as comma and does not
+ * contain any other thousands separators!
+ */
+RockPrice.prototype.getDotNumber = function(val) {
+  // make sure that we have no non-numeric chars
+  val = val.replace(/[^\d\,\.]/g,'');
+
+  var comma = val.indexOf(',');
+  var dot = val.indexOf('.');
+
+  // if we only have one or zero separators we return the value directly
+  if(comma < 0 || dot < 0) return val.replace(',','.');
+
+  // otherwise we only keep the latter separator
+  if(comma < dot) return val.replace(/,/g,'');
+  else return val.replace(/\./g,'').replace(',','.');
+}
+
 // GUI
 $(function() {
   var $table;
@@ -149,7 +168,23 @@ $(function() {
     $RP.closest('.Inputfield').addClass('InputfieldStateChanged');
   }
 
-  // update row data
+
+  // Here we make sure that the html number input does always get a number
+  // with a dot as comma! Otherwise pasting common german numbers would fail.
+  // These examples all work:
+  // 5.432,00
+  // 1.234.567,00
+  // 1,234,567.00
+  $(document).on('paste', '.RockPrice .rp-rows input, .RockPrice .rp-rows select', function(e) {
+    $RP = $(e.target).closest('.RockPrice');
+    var data = e.originalEvent.clipboardData.getData('text/plain');
+    var RP = new RockPrice();
+    var number = RP.getDotNumber(data);
+    setTimeout(function() {
+      $(e.target).val(number);
+    }, 0);
+  });
+
   $(document).on('keyup change focusout', '.RockPrice .rp-rows input, .RockPrice .rp-rows select', function(e) {
     var $el = $(e.target);
     var $td = $el.closest('td');
