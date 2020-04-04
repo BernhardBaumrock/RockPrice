@@ -2,7 +2,7 @@
 
 Price Fieldtype + Inputfield for ProcessWire CMS
 
-![img](https://i.imgur.com/XNRlxJW.gif)
+![img](https://i.imgur.com/l38LSuV.gif)
 
 ## Settings
 
