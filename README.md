@@ -54,3 +54,9 @@ d($m1->equals($m2)); // true
 d($m1->equals($m3)); // false
 d($m1->equals($m3, true)); // true (ignoring sort order)
 ```
+
+## User templates
+
+You can save custom user templates to easily restore complicated recurring pricings:
+
+![img](https://i.imgur.com/N5J0hqc.gif)
