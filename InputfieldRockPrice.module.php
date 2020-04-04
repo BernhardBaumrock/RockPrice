@@ -14,7 +14,7 @@ class InputfieldRockPrice extends InputfieldMarkup {
   public static function getModuleInfo() {
     return [
       'title' => 'RockPrice Inputfield',
-      'version' => '0.0.1',
+      'version' => '0.0.2',
       'summary' => 'Inputfield for RockPrice Fieldtype',
       'icon' => 'money',
       'requires' => ['FieldtypeRockPrice'],

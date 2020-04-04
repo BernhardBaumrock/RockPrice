@@ -13,7 +13,7 @@ class FieldtypeRockPrice extends Fieldtype {
   public static function getModuleInfo() {
     return [
       'title' => 'RockPrice',
-      'version' => '0.0.1',
+      'version' => '0.0.2',
       'summary' => 'Price Fieldtype + Inputfield for ProcessWire CMS',
       'icon' => 'money',
       'requires' => [],
