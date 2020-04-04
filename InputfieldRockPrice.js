@@ -228,6 +228,7 @@ $(function() {
     var url = $RP.data('url');
     var data = {
       name,
+      action: 'save',
       json,
       field: $RP.data('fieldname'),
     }
@@ -235,14 +236,44 @@ $(function() {
     // send ajax request
     $.post(url, data, function(json) {
       // on success: update options
-      log('success', json);
+      UIkit.notification({
+        message: json.msg,
+        status: 'success',
+        pos: 'top-right',
+        timeout: 5000
+      });
     }, 'json')
     .fail(function() {
       // on fail: show alert
       ProcessWire.alert($RP.data('tplsaveerror'));
     });
   }
+  
+  var deleteTemplate = function(name) {
+    var url = $RP.data('url');
+    var data = {
+      name,
+      action: 'trash',
+      field: $RP.data('fieldname'),
+    }
 
+    // send ajax request
+    $.post(url, data, function(json) {
+      UIkit.notification({
+        message: json.msg,
+        status: 'success',
+        pos: 'top-right',
+        timeout: 5000
+      });
+      $RP.find('.tpl option[value='+name+']').remove();
+      $RP.find('.tpl select').val();
+    }, 'json')
+    .fail(function() {
+      ProcessWire.alert($RP.data('tpldeleteerror'));
+    });
+  }
+
+  // save template
   $(document).on('click', '.RockPrice button[name=save]', function(e) {
     e.preventDefault();
     $RP = $(e.target).closest('.RockPrice');
@@ -250,5 +281,17 @@ $(function() {
     var val = $input.val().trim();
     if(!val) return ProcessWire.alert($RP.data('namealert'));
     saveTemplate(val);
+  });
+  
+  // delete template
+  $(document).on('click', '.RockPrice button[name=trash]', function(e) {
+    e.preventDefault();
+    $RP = $(e.target).closest('.RockPrice');
+    var $select = $RP.find('.tpl select');
+    var tpl = $select.val();
+    if(!tpl) return ProcessWire.alert($RP.data('selecttpl'));
+    ProcessWire.confirm($RP.data('confirmdeletetpl'), function() {
+      deleteTemplate(tpl);
+    });
   });
 });

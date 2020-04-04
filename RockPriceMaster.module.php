@@ -46,10 +46,29 @@ class RockPriceMaster extends WireData implements Module, ConfigurableModule {
     if(!$data->user) return;
     if(!$data->name) return;
     if(!$data->field) return;
-
     $key = "RP{$data->user}_{$data->field}_{$data->name}#";
-    $this->cache->save($key, (array)$data);
-    die($key);
+
+    $action = $this->input->post('action', 'string');
+    if($action === 'save') {
+      $this->cache->save($key, (array)$data);
+      $this->json($data->name ." ". __('was successfully saved!'));
+    }
+    elseif($action === 'trash') {
+      $this->cache->delete($key);
+      $this->json($data->name ." ". __('was successfully deleted!'));
+    }
+  }
+
+  /**
+   * Show json message and stop execution
+   * @return void
+   */
+  public function json($msg) {
+    header('Content-Type: application/json');
+    echo json_encode([
+      'msg' => $msg,
+    ]);
+    die();
   }
 
   /**

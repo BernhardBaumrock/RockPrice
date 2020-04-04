@@ -9,14 +9,17 @@ $items = $price->items->count() ? $price->items : [new RockPrice()];
   data-last="<?= __('Last row can not be deleted!') ?>"
   data-namealert="<?= __('Please provide a name for your template') ?>"
   data-tplsaveerror="<?= __('Error saving template') ?>"
+  data-tpldeleteerror="<?= __('Error deleting template') ?>"
+  data-selecttpl="<?= __('Please select a template to delete') ?>"
+  data-confirmdeletetpl="<?= __('Do you really want to delete this template?') ?>"
   data-fieldname="<?= $field->name ?>"
   data-url="<?= $pages->get(2)->url ?>"
   >
   <div class="tpl uk-margin">
     <select class="uk-form-small">
-      <option><?= __('Choose Template') ?></option>
+      <option value=""><?= __('Choose Template') ?></option>
       <?= $field->renderTemplates() ?>
-    </select><button class="uk-button uk-button-default uk-form-small">
+    </select><button class="uk-button uk-button-default uk-form-small" name="trash">
       <i class="fa fa-trash-o" aria-hidden="true"></i>
     </button>
 
