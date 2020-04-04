@@ -69,8 +69,6 @@ $(function() {
   var RP = new RockPrice();
   var $RP;
 
-  // BUG wenn man ein 10% tax item kopiert, hat das resultierende item 20% in der select box
-
   // log function for debugging
   var log = function(...data) {
     if(!ProcessWire.config.debug) return;
@@ -92,7 +90,10 @@ $(function() {
 
     // log('update!', RP);
     $table.find('input[name=rowdata]').val(RP.getJson());
-    if(type !== 'tax') $table.find('.tax input').val(RP.tax.toFixed(digits));
+    if(type !== 'tax') {
+      $table.find('.tax input').val(RP.tax.toFixed(digits));
+      $table.find('.tax select').val(RP.tax);
+    }
     if(type !== 'vat') $table.find('.vat input').val(RP.vat.toFixed(digits));
     if(type !== 'net') $table.find('.net input').val(RP.net.toFixed(digits));
     if(type !== 'gross') $table.find('.gross input').val(RP.gross.toFixed(digits));
@@ -163,6 +164,15 @@ $(function() {
     update(type, val);
   });
 
+  // keep selected attr in sync with select value
+  // this is important for the clone feature
+  $(document).on('change', '.RockPrice select', function(e) {
+    var $select = $(e.target);
+    var val = $select.val();
+    $select.find('option').attr('selected', null);
+    $select.find('option[value='+val+']').attr('selected', 'selected');
+  });
+
   // monitor sortable
   $('[uk-sortable]').on('moved', updateTotals);
 
@@ -181,11 +191,18 @@ $(function() {
     }
 
     if(type === 'trash') {
+      var shiftHeld = e.shiftKey;
       if($RP.find('.rp-row').length > 1) {
-        ProcessWire.confirm($RP.data('really'), function() {
+        if(shiftHeld) {
           $row.remove();
           updateTotals();
-        });
+        }
+        else {
+          ProcessWire.confirm($RP.data('really'), function() {
+            $row.remove();
+            updateTotals();
+          });
+        }
       }
       else {
         ProcessWire.alert($RP.data('last'));
