@@ -1,6 +1,7 @@
 <?php namespace ProcessWire;
 $nomultiline = $field->nomultiline ? 'nomultiline' : '';
 $singleline = $price->items->count() > 1 ? '' : 'single-line';
+$items = $price->items->count() ? $price->items : [new RockPrice()];
 ?>
 
 <div class="RockPrice <?= $nomultiline ?> <?= $singleline ?>" data-digits="<?= $field->digits ?>"
@@ -19,7 +20,7 @@ $singleline = $price->items->count() > 1 ? '' : 'single-line';
     </tr>
   </table>
   <div class="rp-rows" uk-sortable="cls-custom: RockPriceDrag;">
-  <?php foreach($price->items as $row): ?>
+  <?php foreach($items as $row): ?>
     <div class="rp-row">
       <table>
         <tr>
