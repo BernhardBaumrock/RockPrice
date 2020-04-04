@@ -32,7 +32,7 @@ class ProcessRockPrice extends Process {
       'value' => 'bar',
       'taxStep' => '0.01',
       'taxSelect' => "0\n10\n19\n20",
-      // 'multiline' => false,
+      'notes' => 'For testing and developing the UI',
     ]);
     
     return $form->render();
