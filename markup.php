@@ -29,7 +29,7 @@ $nomultiline = $field->nomultiline ? 'nomultiline' : '';
           <td class="vat" data-type="vat"><?= $field->renderInputVat() ?></td>
           <td class="net" data-type="net"><?= $field->renderInputNet() ?></td>
           <td class="gross" data-type="gross"><?= $field->renderInputGross() ?></td>
-          <td><input type="text" name="rowdata" class="rp-data"></td>
+          <td><input type="text" name="rowdata" class="rp-data" disabled></td>
           <td class="clone" data-type="clone">
             <a href='#'><i class="fa fa-clone" aria-hidden="true"></i></a>
           </td>
