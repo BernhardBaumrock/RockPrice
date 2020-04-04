@@ -7,6 +7,7 @@
  * @link https://www.baumrock.com
  */
 require_once('RockPrice.php');
+require_once('RockPriceMulti.php');
 class FieldtypeRockPrice extends Fieldtype {
 
   public static function getModuleInfo() {
@@ -31,7 +32,7 @@ class FieldtypeRockPrice extends Fieldtype {
     }
 
     public function getBlankValue(Page $page, Field $field) {
-      return new RockPrice(0, $field->defaultTax);
+      return new RockPriceMulti();
     }
 
     public function sleepValue($page, $field, $value) {

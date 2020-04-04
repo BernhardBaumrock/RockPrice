@@ -67,12 +67,10 @@ class InputfieldRockPrice extends InputfieldMarkup {
   * @return $this
   */
   public function ___processInput($input) {
-    return;
-
     $old = $this->value;
-    $net = $input->get($this->name."_net");
-    $tax = $input->get($this->name."_tax");
-    $new = new RockPrice($net, $tax);
+    $json = $input->get($this->name);
+    bd($json, 'json');
+    $new = new RockPrice($json);
     if(!$old->equals($new)) {
       $this->trackChange('value');
       $this->value = $new;
