@@ -70,6 +70,7 @@ class RockPriceMulti extends WireData {
         AND $this->gross === $other->gross;
     }
     else {
+      if($this->items->count() !== $other->items->count()) return false;
       foreach($this->items as $i=>$item) {
         if(!$item->equals($other->items->eq($i))) return false;
       }
