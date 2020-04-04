@@ -166,7 +166,7 @@ $(function() {
 
   // keep selected attr in sync with select value
   // this is important for the clone feature
-  $(document).on('change', '.RockPrice select', function(e) {
+  $(document).on('change', '.RockPrice .rp-rows select', function(e) {
     var $select = $(e.target);
     var val = $select.val();
     $select.find('option').attr('selected', null);
@@ -210,5 +210,113 @@ $(function() {
     }
 
     e.preventDefault();
+  });
+});
+
+// template feature
+$(function() {
+  var $RP;
+
+  // log function for debugging
+  var log = function(...data) {
+    if(!ProcessWire.config.debug) return;
+    console.log(...data);
+  }
+
+  var saveTemplate = function(name) {
+    var json = $RP.find('input.total').val();
+    var url = $RP.data('url');
+    var data = {
+      name,
+      action: 'save',
+      json,
+      field: $RP.data('fieldname'),
+    }
+
+    // send ajax request
+    $.post(url, data, function(json) {
+      // on success: update options
+      UIkit.notification({
+        message: json.msg,
+        status: 'success',
+        pos: 'top-right',
+        timeout: 5000
+      });
+    }, 'json')
+    .fail(function() {
+      // on fail: show alert
+      ProcessWire.alert($RP.data('tplsaveerror'));
+    });
+  }
+  
+  var deleteTemplate = function(name) {
+    var url = $RP.data('url');
+    var data = {
+      name,
+      action: 'trash',
+      field: $RP.data('fieldname'),
+    }
+
+    // send ajax request
+    $.post(url, data, function(json) {
+      UIkit.notification({
+        message: json.msg,
+        status: 'success',
+        pos: 'top-right',
+        timeout: 5000
+      });
+      $RP.find('.tpl option[value='+name+']').remove();
+      $RP.find('.tpl select').val();
+    }, 'json')
+    .fail(function() {
+      ProcessWire.alert($RP.data('tpldeleteerror'));
+    });
+  }
+
+  var setRows = function($RP, data) {
+    var $row = $RP.find(".rp-row").first().clone();
+    $RP.find(".rp-row").remove();
+
+    var $rows = $RP.find('.rp-rows');
+    $.each(data, function(i, row) {
+      $r = $row.clone();
+      $rows.append($r);
+      $r.find('.tax input').val(row.tax);
+      $r.find('.tax select').val(row.tax);
+      $r.find('.gross input').val(row.gross);
+      $r.find('.net input').val(row.net).change();
+    });
+  }
+
+  // save template
+  $(document).on('click', '.RockPrice button[name=save]', function(e) {
+    e.preventDefault();
+    $RP = $(e.target).closest('.RockPrice');
+    var $input = $RP.find('.tpl input[name=tplname]');
+    var val = $input.val().trim();
+    if(!val) return ProcessWire.alert($RP.data('namealert'));
+    saveTemplate(val);
+  });
+  
+  // delete template
+  $(document).on('click', '.RockPrice button[name=trash]', function(e) {
+    e.preventDefault();
+    $RP = $(e.target).closest('.RockPrice');
+    var $select = $RP.find('.tpl select');
+    var tpl = $select.val();
+    if(!tpl) return ProcessWire.alert($RP.data('selecttpl'));
+    ProcessWire.confirm($RP.data('confirmdeletetpl'), function() {
+      deleteTemplate(tpl);
+    });
+  });
+
+  // restore templates
+  $(document).on('change', '.RockPrice .tpl select', function(e) {
+    var $select = $(e.target);
+    var tpl = $select.val();
+    if(!tpl) return;
+
+    var data = $select.find('option[value='+tpl+']').data('json');
+    setRows($select.closest('.RockPrice'), data);
   });
 });

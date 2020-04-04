@@ -17,7 +17,7 @@ class InputfieldRockPrice extends InputfieldMarkup {
       'version' => '0.0.2',
       'summary' => 'Inputfield for RockPrice Fieldtype',
       'icon' => 'money',
-      'requires' => ['FieldtypeRockPrice'],
+      'requires' => ['RockPriceMaster'],
       'installs' => [],
     ];
   }
@@ -112,7 +112,31 @@ class InputfieldRockPrice extends InputfieldMarkup {
     return "<input type='number' {$this->getStep()} value='$val'>";
   }
 
+  /**
+   * Render template options
+   * @return string
+   */
+  public function renderTemplates() {
+    $out = '';
+    foreach($this->getTemplates($this->name, $this->user) as $tpl) {
+      $tpl = (object)$tpl;
+      $json = substr($tpl->json, 1);
+      $out .= "<option
+        value='{$tpl->name}'
+        data-json='$json'
+        >{$tpl->title}</option>";
+    }
+    return $out;
+  }
+
   // END MARKUP HELPER METHODS
+
+  /**
+   * Get cached templates
+   */
+  public function getTemplates($field, $user = "*") {
+    return $this->cache->get("RP{$user}_{$field}_*");
+  }
 
   /**
    * Get step markup from precision
