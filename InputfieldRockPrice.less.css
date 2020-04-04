@@ -25,6 +25,9 @@
   border: 1px transparent !important;
   background: transparent !important;
 }
+.RockPrice .tpl input {
+  width: 150px;
+}
 .RockPrice table {
   border-collapse: collapse;
   text-align: center;

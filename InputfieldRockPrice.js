@@ -166,7 +166,7 @@ $(function() {
 
   // keep selected attr in sync with select value
   // this is important for the clone feature
-  $(document).on('change', '.RockPrice select', function(e) {
+  $(document).on('change', '.RockPrice .rp-rows select', function(e) {
     var $select = $(e.target);
     var val = $select.val();
     $select.find('option').attr('selected', null);
@@ -210,5 +210,45 @@ $(function() {
     }
 
     e.preventDefault();
+  });
+});
+
+// template feature
+$(function() {
+  var $RP;
+
+  // log function for debugging
+  var log = function(...data) {
+    if(!ProcessWire.config.debug) return;
+    console.log(...data);
+  }
+
+  var saveTemplate = function(name) {
+    var json = $RP.find('input.total').val();
+    var url = $RP.data('url');
+    var data = {
+      name,
+      json,
+      field: $RP.data('fieldname'),
+    }
+
+    // send ajax request
+    $.post(url, data, function(json) {
+      // on success: update options
+      log('success', json);
+    }, 'json')
+    .fail(function() {
+      // on fail: show alert
+      ProcessWire.alert($RP.data('tplsaveerror'));
+    });
+  }
+
+  $(document).on('click', '.RockPrice button[name=save]', function(e) {
+    e.preventDefault();
+    $RP = $(e.target).closest('.RockPrice');
+    var $input = $RP.find('.tpl input[name=tplname]');
+    var val = $input.val().trim();
+    if(!val) return ProcessWire.alert($RP.data('namealert'));
+    saveTemplate(val);
   });
 });

@@ -7,7 +7,25 @@ $items = $price->items->count() ? $price->items : [new RockPrice()];
 <div class="RockPrice <?= $nomultiline ?> <?= $singleline ?>" data-digits="<?= $field->digits ?>"
   data-really="<?= __('Do you really want to delete this row?') ?>"
   data-last="<?= __('Last row can not be deleted!') ?>"
+  data-namealert="<?= __('Please provide a name for your template') ?>"
+  data-tplsaveerror="<?= __('Error saving template') ?>"
+  data-fieldname="<?= $field->name ?>"
+  data-url="<?= $pages->get(2)->url ?>"
   >
+  <div class="tpl uk-margin">
+    <select class="uk-form-small">
+      <option><?= __('Choose Template') ?></option>
+      <?= $field->renderTemplates() ?>
+    </select><button class="uk-button uk-button-default uk-form-small">
+      <i class="fa fa-trash-o" aria-hidden="true"></i>
+    </button>
+
+    <input class="uk-input uk-form-small uk-text-left uk-margin-left" type="text" name="tplname"
+    ><button class="uk-button uk-button-default uk-form-small" name="save">
+      <?= __('Save') ?>
+    </button>
+  </div>
+
   <table class="header">
     <tr>
       <td class="icon"></td>

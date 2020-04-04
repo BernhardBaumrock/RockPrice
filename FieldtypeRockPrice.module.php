@@ -16,8 +16,8 @@ class FieldtypeRockPrice extends Fieldtype {
       'version' => '0.0.2',
       'summary' => 'Price Fieldtype + Inputfield for ProcessWire CMS',
       'icon' => 'money',
-      'requires' => [],
-      'installs' => ['InputfieldRockPrice'],
+      'requires' => ['RockPriceMaster'],
+      'installs' => [],
     ];
   }
 
