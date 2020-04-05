@@ -14,7 +14,7 @@ class InputfieldRockPrice extends InputfieldMarkup {
   public static function getModuleInfo() {
     return [
       'title' => 'RockPrice Inputfield',
-      'version' => '0.0.2',
+      'version' => '0.0.3',
       'summary' => 'Inputfield for RockPrice Fieldtype',
       'icon' => 'money',
       'requires' => ['RockPriceMaster'],
@@ -86,7 +86,11 @@ class InputfieldRockPrice extends InputfieldMarkup {
     foreach($this->getTaxSelectValues() as $tax) {
       $tax = trim($tax);
       if(!strlen($tax)) continue;
-      $selected = $tax == $val ? ' selected="selected"' : '';
+
+      if(!$val AND !$this->value->net) {
+        $selected = $tax == $this->defaultTax ? ' selected="selected"' : '';
+      }
+      else $selected = $tax == $val ? ' selected="selected"' : '';
       $select .= "<option value='$tax'$selected>$tax%</option>";
     }
     if($select) return "<select>$select</select>";
