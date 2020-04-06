@@ -1,5 +1,7 @@
 <?php namespace ProcessWire;
 class RockPrice extends WireData {
+  const taxDigits = 5;
+
   public $tax;
   public $vat;
   public $net;
@@ -23,7 +25,7 @@ class RockPrice extends WireData {
   }
 
   public function setTax($val) {
-    $this->tax = $tax = $this->round($val, 5);
+    $this->tax = $tax = $this->round($val, self::taxDigits);
     $this->setVat();
     $this->setGross();
   }
