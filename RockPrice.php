@@ -5,7 +5,6 @@ class RockPrice extends WireData {
   public $net;
   public $gross;
 
-  private $factor;
   private $digits;
 
   public function __construct($net = 0, $tax = 0, $digits = null) {
@@ -14,8 +13,8 @@ class RockPrice extends WireData {
     $this->setTax($tax);
   }
 
-  public function round($val) {
-    return round($val*1, $this->digits);
+  public function round($val, $digits = null) {
+    return round($val*1, $digits ?: $this->digits);
   }
 
   public function setDigits($digits) {
@@ -24,8 +23,7 @@ class RockPrice extends WireData {
   }
 
   public function setTax($val) {
-    $this->tax = $tax = $this->round($val);
-    $this->factor = 1+($tax/100);
+    $this->tax = $tax = $this->round($val, 5);
     $this->setVat();
     $this->setGross();
   }
@@ -39,8 +37,7 @@ class RockPrice extends WireData {
   }
 
   public function setGross($val = null) {
-    if($val !== null) $this->gross = $this->round($val);
-    else $this->gross = $this->round($this->net * $this->factor);
+    $this->gross = $this->round($this->net + $this->vat);
   }
 
   /**
