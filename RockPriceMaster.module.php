@@ -11,7 +11,7 @@ class RockPriceMaster extends WireData implements Module, ConfigurableModule {
   public static function getModuleInfo() {
     return [
       'title' => 'RockPriceMaster',
-      'version' => '0.0.5',
+      'version' => '0.0.6',
       'summary' => 'RockPrice Master Module (autoload)',
       'autoload' => true,
       'singular' => true,

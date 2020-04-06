@@ -12,7 +12,6 @@ class RockPrice extends WireData {
     $this->setDigits($digits);
     $this->setNet($net);
     $this->setTax($tax);
-    $this->setGross();
   }
 
   public function round($val) {
@@ -25,9 +24,8 @@ class RockPrice extends WireData {
   }
 
   public function setTax($val) {
-    $val = (float)$val;
-    $this->tax = $this->round($val);
-    $this->factor = 1+($val/100);
+    $this->tax = $tax = $this->round($val);
+    $this->factor = 1+($tax/100);
     $this->setVat();
     $this->setGross();
   }
@@ -73,6 +71,7 @@ class RockPrice extends WireData {
       'vat' => $this->vat,
       'net' => $this->net,
       'gross' => $this->gross,
+      'digits' => $this->digits,
     ];
   }
 }
